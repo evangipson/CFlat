@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using FMOD;
 using CFlat.Core.Models;
+using Thread = System.Threading.Thread;
 using MemoryExtensions = CFlat.Core.Extensions.MemoryExtensions;
 
 namespace CFlat.Application.Factories;
@@ -8,6 +9,9 @@ namespace CFlat.Application.Factories;
 /// <summary>Responsible for creating <see cref="AudioEngine"/> objects.</summary>
 public class EngineFactory
 {
+    private static Action? engineUpdateLoop;
+    private static Task? engineUpdateTask;
+
     /// <summary>Creates a new <see cref="AudioEngine"/>. The created <see cref="AudioEngine"/> must be freed by calling <c>cflat_free()</c>.</summary>
     /// <param name="maxChannels">The amount of channels the <see cref="AudioEngine"/> can support. Defaults to <c>512</c>.</param>
     /// <returns>The newly created <see cref="AudioEngine"/>.</returns>
@@ -17,7 +21,7 @@ public class EngineFactory
         Factory.System_Create(out FMOD.System system);
         AudioEngine audioEngine = new(system);
 
-        var initializeResult = audioEngine.System.init(maxChannels, INITFLAGS.NORMAL, (IntPtr)OUTPUTTYPE.COREAUDIO);
+        var initializeResult = audioEngine.System.init(maxChannels, INITFLAGS.NORMAL, (IntPtr)OUTPUTTYPE.AUDIOOUT);
         audioEngine.LatestResult = initializeResult;
 
         return MemoryExtensions.GetPointer(audioEngine);
@@ -44,9 +48,30 @@ public class EngineFactory
         {
             newChannelGroup.setVolume(startingVolume);
             newChannelGroup.setVolumeRamp(willVolumeRamp);
+            newChannelGroup.setPaused(false);
             audioEngine.ChannelGroups.Add(newChannelGroup);
         }
 
         return result;
     }
+
+    [UnmanagedCallersOnly(EntryPoint = "cflat_start_engine")]
+    public static void StartEngine(nint audioEnginePointer, int millisecondTickInterval = 50)
+    {
+        var audioEngine = MemoryExtensions.FromPointer<AudioEngine>(audioEnginePointer);
+
+        engineUpdateTask = Task.Run(() =>
+        {
+            while (!engineUpdateTask?.IsCompleted ?? true)
+            {
+                audioEngine.System.update();
+                Thread.Sleep(millisecondTickInterval);
+            }
+
+            return Task.CompletedTask;
+        });
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "cflat_stop_engine")]
+    public static void StopEngine() => engineUpdateTask = Task.CompletedTask;
 }

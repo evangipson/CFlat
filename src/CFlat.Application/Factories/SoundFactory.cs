@@ -10,7 +10,7 @@ namespace CFlat.Application.Factories;
 public class SoundFactory
 {
     [UnmanagedCallersOnly(EntryPoint = "cflat_load_sound")]
-    public static nint LoadSound(nint audioEnginePointer, [MarshalAs(UnmanagedType.LPWStr)] nint soundNamePointer, MODE mode = MODE.CREATESTREAM|MODE.LOOP_OFF)
+    public static nint LoadSound(nint audioEnginePointer, [MarshalAs(UnmanagedType.LPWStr)] nint soundNamePointer, MODE mode = MODE.LOOP_OFF | MODE._2D)
     {
         var audioEngine = MemoryExtensions.FromPointer<AudioEngine>(audioEnginePointer);
         var soundName = Marshal.PtrToStringAuto(soundNamePointer) ?? throw new InvalidCastException($"[LoadSound]: Unable to cast {nameof(soundNamePointer)} to string");
@@ -36,7 +36,9 @@ public class SoundFactory
             return RESULT.ERR_CHANNEL_STOLEN;
         }
 
-        audioEngine.System.playSound(sound, channelGroup, false, out _);
+        audioEngine.System.playSound(sound, channelGroup, false, out Channel channel);
+        channel.setChannelGroup(channelGroup);
+
         return RESULT.OK;
     }
 
@@ -45,7 +47,7 @@ public class SoundFactory
     public static RESULT LoadAndPlaySound(nint audioEnginePointer,
         [MarshalAs(UnmanagedType.LPWStr)] nint soundNamePointer,
         [MarshalAs(UnmanagedType.LPWStr)] nint channelNamePointer,
-        MODE mode = MODE.CREATESTREAM | MODE.LOOP_OFF)
+        MODE mode = MODE.LOOP_OFF | MODE._2D)
     {
         var loadSoundPointer = MemoryExtensions.GetFunctionPointer("LoadSound");
         var loadSound = Marshal.GetDelegateForFunctionPointer<Func<nint, nint, MODE, nint>>(loadSoundPointer);
