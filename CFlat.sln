@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35913.81 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFlat.Web", "CFlat.Web\CFlat.Web.csproj", "{49C276AD-78FF-4AAD-B174-6615431F316C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFlat.Core", "src\CFlat.Core\CFlat.Core.csproj", "{EC91FE9A-B8B7-4311-8A9D-79B06D53D4A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFlat.Core", "CFlat.Core\CFlat.Core.csproj", "{EC91FE9A-B8B7-4311-8A9D-79B06D53D4A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFlat.Application", "src\CFlat.Application\CFlat.Application.csproj", "{6FF0FD90-2DBA-4533-B908-89FA4C773CBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFlat.Application", "CFlat.Application\CFlat.Application.csproj", "{6FF0FD90-2DBA-4533-B908-89FA4C773CBB}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CFlat.Example", "CFlat.Example\CFlat.Example.vcxproj", "{8D9495C3-6FDB-4392-A36A-5C052E703CA2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CFlat.Example", "src\CFlat.Example\CFlat.Example.vcxproj", "{8D9495C3-6FDB-4392-A36A-5C052E703CA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Debug|x64.Build.0 = Debug|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Debug|x86.Build.0 = Debug|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Release|x64.ActiveCfg = Release|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Release|x64.Build.0 = Release|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Release|x86.ActiveCfg = Release|Any CPU
-		{49C276AD-78FF-4AAD-B174-6615431F316C}.Release|x86.Build.0 = Release|Any CPU
 		{EC91FE9A-B8B7-4311-8A9D-79B06D53D4A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC91FE9A-B8B7-4311-8A9D-79B06D53D4A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC91FE9A-B8B7-4311-8A9D-79B06D53D4A0}.Debug|x64.ActiveCfg = Debug|Any CPU
