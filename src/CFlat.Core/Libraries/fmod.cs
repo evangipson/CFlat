@@ -1002,7 +1002,7 @@ namespace FMOD
 
     public struct Debug
     {
-        public static RESULT Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode = DEBUG_MODE.TTY, DEBUG_CALLBACK callback = null, string filename = null)
+        public static RESULT Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode = DEBUG_MODE.TTY, DEBUG_CALLBACK? callback = null, string filename = "")
         {
             using StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper();
             return FMOD5_Debug_Initialize(flags, mode, callback, encoder.byteFromStringUTF8(filename));
@@ -1010,7 +1010,7 @@ namespace FMOD
 
         #region importfunctions
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD5_Debug_Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode, DEBUG_CALLBACK callback, byte[] filename);
+        private static extern RESULT FMOD5_Debug_Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode, DEBUG_CALLBACK? callback, byte[] filename);
 
         #endregion
     }
@@ -3380,8 +3380,10 @@ namespace FMOD
         public RESULT getParameterInfo(int index, out DSP_PARAMETER_DESC desc)
         {
             IntPtr descPtr;
+            DSP_PARAMETER_DESC dspParameterDesc = new();
             RESULT result = FMOD5_DSP_GetParameterInfo(this.handle, index, out descPtr);
-            desc = MarshalHelper.PtrToStructure<DSP_PARAMETER_DESC>(descPtr);
+            MarshalHelper.PtrToStructure(descPtr, dspParameterDesc);
+            desc = dspParameterDesc;
             return result;
         }
         public RESULT getDataParameterIndex(int datatype, out int index)
@@ -3948,7 +3950,7 @@ namespace FMOD
             {
                 if (s == null)
                 {
-                    return null;
+                    return [];
                 }
 
                 int maximumLength = encoding.GetMaxByteCount(s.Length) + 1; // +1 for null terminator
@@ -4064,7 +4066,7 @@ namespace FMOD
     public static class MarshalHelper
     {
 #pragma warning disable 618
-        public static T PtrToStructure<T>(IntPtr ptr) => Marshal.PtrToStructure<T>(ptr);
+        public static void PtrToStructure<T>(IntPtr ptr, T structure) where T : struct => Marshal.PtrToStructure(ptr, structure);
 
         public static int SizeOf<T>() => Marshal.SizeOf<T>();
 #pragma warning restore 618
