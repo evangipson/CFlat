@@ -34,7 +34,7 @@ public static class EngineService
         _audioEngine = EngineFactory.CreateEngine(is3d);
         AddSpatialization();
         AddEngineChannelGroups();
-        StartEngine();
+        CreateEngineUpdateThread();
     }
 
     /// <summary>Stops the <see cref="AudioEngine"/> update loop, then releases and cleans up all attached entities.</summary>
@@ -51,15 +51,7 @@ public static class EngineService
 
     /// <summary>Gets the spatial mode for <see cref="Sound"/> for the <see cref="AudioEngine"/>, based on if 3d sound is supported.</summary>
     /// <returns><see cref="MODE._3D"/> if 3d sound is supported, <see cref="MODE._2D"/> otherwise.</returns>
-    public static MODE GetSpatialMode()
-    {
-        return _audioEngine?.Is3D == true ? MODE._3D : MODE._2D;
-    }
-
-    private static void StartEngine()
-    {
-        CreateEngineUpdateThread();
-    }
+    public static MODE GetSpatialMode() => _audioEngine?.Is3D == true ? MODE._3D : MODE._2D;
 
     private static void CreateEngineUpdateThread()
     {

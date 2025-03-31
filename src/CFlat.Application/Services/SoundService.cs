@@ -100,9 +100,8 @@ public static class SoundService
             return sound;
         }
 
-        sound.set3DMinMaxDistance(0.5f * EngineConstants.DistanceFactor, 5000.0f * EngineConstants.DistanceFactor)
-            .OnFailure("Could not set 3D min max distance for sound.");
-
-        return sound;
+        return sound.set3DMinMaxDistance(0.5f * EngineConstants.DistanceFactor, 5000.0f * EngineConstants.DistanceFactor)
+            .OnFailure("Could not set 3D min max distance for sound.")
+            .GetValueOrDefault(() => sound);
     }
 }

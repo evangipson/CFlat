@@ -12,14 +12,12 @@ public class EngineFactory
     /// <param name="maxChannels">The amount of channels the <see cref="AudioEngine"/> can support. Defaults to <c>512</c>.</param>
     /// <param name="initFlags">One or many bitwise-OR <see cref="INITFLAGS"/> to intialize the engine. Defaults to <see cref="INITFLAGS.NORMAL"/>.</param>
     /// <returns>The newly created <see cref="AudioEngine"/>.</returns>
-    public static AudioEngine CreateEngine(bool is3d = false, int maxChannels = 512, INITFLAGS initFlags = INITFLAGS.NORMAL)
-    {
-        Factory.System_Create(out FMOD.System system)
-            .OnFailure("Unable to create System for Audio Engine.");
-
-        system.init(maxChannels, initFlags, nint.Zero)
-            .OnFailure("Unable to initialize System for Audio Engine.");
-
-        return new(system, is3d);
-    }
+    public static AudioEngine CreateEngine(bool is3d = false, int maxChannels = 512, INITFLAGS initFlags = INITFLAGS.NORMAL) => Factory.System_Create(out FMOD.System system)
+        .OnFailure("Unable to create System for Audio Engine.")
+        .OnSuccess(() =>
+        {
+            system.init(maxChannels, initFlags, nint.Zero)
+                .OnFailure("Unable to initialize System for Audio Engine.");
+        })
+        .GetValueOrDefault<AudioEngine>(() => new(system, is3d));
 }

@@ -14,30 +14,26 @@ public static class ChannelService
     /// <param name="newChannelGroupName">The name of the <see cref="ChannelGroup"/> to add.</param>
     /// <param name="startingVolume">The starting volume of the <see cref="ChannelGroup"/>, defaults to <c>1.0f</c> (100%).</param>
     /// <param name="willVolumeRamp">A flag to indicate if the audio will ramp up and down, defaults to <see langword="false"/>.</param>
-    public static void AddChannelGroup(string newChannelGroupName, float startingVolume = 1.0f, bool willVolumeRamp = false)
-    {
-        AudioEngine?.System
-            .createChannelGroup(newChannelGroupName, out ChannelGroup newChannelGroup)
-            .OnFailure($"Could not create the {newChannelGroupName} channel group.")
-            .OnSuccess(() =>
-            {
-                newChannelGroup.setVolume(startingVolume);
-                newChannelGroup.setVolumeRamp(willVolumeRamp);
-                newChannelGroup.setPaused(false);
+    public static void AddChannelGroup(string newChannelGroupName, float startingVolume = 1.0f, bool willVolumeRamp = false) => AudioEngine?.System
+        .createChannelGroup(newChannelGroupName, out ChannelGroup newChannelGroup)
+        .OnFailure($"Could not create the {newChannelGroupName} channel group.")
+        .OnSuccess(() =>
+        {
+            newChannelGroup.setVolume(startingVolume);
+            newChannelGroup.setVolumeRamp(willVolumeRamp);
+            newChannelGroup.setPaused(false);
 
-                AudioEngine?.ChannelGroups.Add(newChannelGroup);
-            });
-    }
+            AudioEngine?.ChannelGroups.Add(newChannelGroup);
+        });
 
     /// <summary>Finds a <see cref="ChannelGroup"/> from the audio engine by <paramref name="channelGroupName"/>.</summary>
     /// <param name="channelGroupName">The name of the <see cref="ChannelGroup"/> to find.</param>
     /// <returns>The <see cref="ChannelGroup"/> that was found, or <see langword="null"/>.</returns>
     public static ChannelGroup? FindChannelGroup(string channelGroupName) => AudioEngine?.ChannelGroups.First(channelGroup =>
     {
-        channelGroup.getName(out string name, 50)
-            .OnFailure("Unable to get the name of a channel group from the Audio Engine.");
-
-        return channelGroupName.Equals(name);
+        return channelGroup.getName(out string name, 50)
+            .OnFailure("Unable to get the name of a channel group from the Audio Engine.")
+            .GetValueOrDefault(() => channelGroupName.Equals(name));
     });
 
     /// <summary>Spatializes the <paramref name="channel"/> if the audio engine supports 3d sound. Does nothing otherwise.</summary>
@@ -61,9 +57,8 @@ public static class ChannelService
             z = depthDistance
         };
 
-        channel.set3DAttributes(ref position, ref velocity)
-            .OnFailure("Unable to spatialize channel for 3d.");
-
-        return channel;
+        return channel.set3DAttributes(ref position, ref velocity)
+            .OnFailure("Unable to spatialize channel for 3d.")
+            .GetValueOrDefault(() => channel);
     }
 }
