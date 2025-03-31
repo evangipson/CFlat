@@ -1,5 +1,5 @@
 # CFlat
-A [native AoT](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/native-aot) .NET C# audio engine using FMOD, with an example C++ project invoking the exposed C# methods.
+A [native AoT](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/native-aot) .NET C# audio engine using [FMOD Core](https://www.fmod.com/core), with an example C++ project invoking the exposed C# methods.
 
 All of the C# code is entirely native AoT, with a few methods exposed in [`CFlat.Application/Events`](src/CFlat.Application/Events/) intended to be called from unmanaged code.
 
