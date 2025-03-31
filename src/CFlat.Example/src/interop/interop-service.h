@@ -30,10 +30,23 @@
 #include <unordered_map>
 #include <functional>
 
+/// @brief Responsible for loading native AoT libraries and the functions they provide.
 class InteropService
 {
     public:
+        /// @brief Loads a void returning function with no parameters from a native AoT library.
+        /// @param interopFunctionName - The name of the function to load.
+        /// @return The loaded native AoT function.
         static std::function<void()> GetFunctionVoid(const std::string& interopFunctionName);
+
+        /// @brief Loads a void returning function with a bool parameter from a native AoT library.
+        /// @param interopFunctionName - The name of the function to load.
+        /// @return The loaded native AoT function.
+        static std::function<void(bool)> GetFunctionBool(const std::string& interopFunctionName);
+
+        /// @brief Loads a void returning function with char, bool, and short parameters from a native AoT library.
+        /// @param interopFunctionName - The name of the function to load.
+        /// @return The loaded native AoT function.
         static std::function<void(char, bool, short)> GetFunctionCharBoolShort(const std::string& interopFunctionName);
 
     private:

@@ -36,4 +36,15 @@ public class SoundServiceTests
 
         Assert.True(EngineService.IsRunning);
     }
+
+    [Fact]
+    public void LoadAndPlay3dStream_ShouldPlay3dStream()
+    {
+        EngineService.InitializeEngine(true);
+
+        SoundService.LoadAndPlayStream(ChannelConstants.SoundEffectsChannelGroup, "piano", "D3");
+        Thread.Sleep(2000);
+
+        Assert.True(EngineService.IsRunning);
+    }
 }

@@ -7,31 +7,37 @@ using Thread = System.Threading.Thread;
 
 namespace CFlat.Application.Services;
 
+/// <summary>Responsible for interacting with and managing the <see cref="Core.Models.AudioEngine"/>.</summary>
 public static class EngineService
 {
     private static CancellationTokenSource _cancelTokenSource = new();
     private static Task? _updateTask;
-
     private static AudioEngine? _audioEngine;
 
+    /// <summary>The main engine for audio in the application.</summary>
     public static AudioEngine? AudioEngine => _audioEngine;
 
+    /// <summary>A flag that determines if the <see cref="AudioEngine"/> is currently updating.</summary>
     public static bool IsRunning => _updateTask != null && !_cancelTokenSource.IsCancellationRequested;
 
     private static CancellationToken CancelToken => _cancelTokenSource.Token;
 
-    public static void InitializeEngine()
+    /// <summary>Initializes the <see cref="AudioEngine"/> by adding spatialization, adding a collection of <see cref="ChannelGroup"/>, and starting the update loop.</summary>
+    /// <param name="is3d">A flag to determine if the engine will be loaded supporting 3d sound, defaults to <see langword="false"/>.</param>
+    public static void InitializeEngine(bool is3d = false)
     {
         if (IsRunning)
         {
             StopEngine();
         }
 
-        _audioEngine = EngineFactory.CreateEngine();
+        _audioEngine = EngineFactory.CreateEngine(is3d);
+        AddSpatialization();
         AddEngineChannelGroups();
         StartEngine();
     }
 
+    /// <summary>Stops the <see cref="AudioEngine"/> update loop, then releases and cleans up all attached entities.</summary>
     public static void StopEngine()
     {
         _cancelTokenSource.Cancel();
@@ -41,6 +47,13 @@ public static class EngineService
 
         _updateTask = null;
         _audioEngine = null;
+    }
+
+    /// <summary>Gets the spatial mode for <see cref="Sound"/> for the <see cref="AudioEngine"/>, based on if 3d sound is supported.</summary>
+    /// <returns><see cref="MODE._3D"/> if 3d sound is supported, <see cref="MODE._2D"/> otherwise.</returns>
+    public static MODE GetSpatialMode()
+    {
+        return _audioEngine?.Is3D == true ? MODE._3D : MODE._2D;
     }
 
     private static void StartEngine()
@@ -95,5 +108,16 @@ public static class EngineService
         _audioEngine?.System.release()
             .OnFailure("Could not release Audio Engine system.")
             .OnSuccess(() => _audioEngine?.ChannelGroups.ToList().Clear());
+    }
+
+    private static void AddSpatialization()
+    {
+        if (_audioEngine?.Is3D != true)
+        {
+            return;
+        }
+
+        _audioEngine?.System.set3DSettings(1.0f, EngineConstants.DistanceFactor, 1.0f)
+            .OnFailure("Could not set 3d settings for the Audio Engine.");
     }
 }

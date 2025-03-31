@@ -1,6 +1,6 @@
-#include "piano-service.h"
+#include "sound-service.h"
 
-void PianoService::PlayPianoNote(char note, bool flat, short octave)
+void SoundService::PlayPianoNote(char note, bool flat, short octave)
 {
     auto playPianoNoteFunc = InteropService::GetFunctionCharBoolShort(InteropFunctionNames::PlayPianoNote);
     if (playPianoNoteFunc == nullptr)

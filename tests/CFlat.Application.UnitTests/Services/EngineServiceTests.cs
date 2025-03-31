@@ -37,4 +37,14 @@ public class EngineServiceTests
         EngineService.StopEngine();
         Assert.False(EngineService.IsRunning);
     }
+
+    [Fact]
+    public void Initialize3dEngine_ShouldCreateEngine_AndPopulateChannelGroups()
+    {
+        EngineService.InitializeEngine(true);
+
+        Assert.True(EngineService.IsRunning);
+        Assert.NotNull(EngineService.AudioEngine?.ChannelGroups);
+        Assert.NotEmpty(EngineService.AudioEngine?.ChannelGroups!);
+    }
 }

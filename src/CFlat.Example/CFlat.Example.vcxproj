@@ -212,7 +212,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\audio\audio-engine-service.cpp" />
-    <ClCompile Include="src\audio\piano-service.cpp" />
+    <ClCompile Include="src\audio\sound-service.cpp" />
     <ClCompile Include="src\cflat.cpp" />
     <ClCompile Include="src\interop\interop-constants.cpp" />
     <ClCompile Include="src\interop\interop-service.cpp" />
@@ -289,7 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\audio\audio-engine-service.h" />
-    <ClInclude Include="src\audio\piano-service.h" />
+    <ClInclude Include="src\audio\sound-service.h" />
     <ClInclude Include="src\cflat.h" />
     <ClInclude Include="src\interop\interop-constants.h" />
     <ClInclude Include="src\interop\interop-service.h" />

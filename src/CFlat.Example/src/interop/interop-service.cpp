@@ -3,6 +3,59 @@
 HMODULE InteropService::_libraryHandle = nullptr;
 std::unordered_map<std::string, void*> InteropService::_loadedSymbols = {};
 
+std::function<void()> InteropService::GetFunctionVoid(const std::string& interopFunctionName)
+{
+    // Return the symbol if it has been loaded
+    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
+    {
+        return std::function<void()>(reinterpret_cast<void(*)()>(_loadedSymbols[interopFunctionName]));
+    }
+
+    // Load the symbol if it hasn't been loaded
+    void* symbol = GetInteropFunction(interopFunctionName);
+
+    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
+    _loadedSymbols[interopFunctionName] = symbol;
+
+    // Return the function pointer to the loaded symbol
+    return std::function<void()>(reinterpret_cast<void(*)()>(symbol));
+};
+
+std::function<void(bool)> InteropService::GetFunctionBool(const std::string& interopFunctionName)
+{
+    // Return the symbol if it has been loaded
+    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
+    {
+        return std::function<void(bool)>(reinterpret_cast<void(*)(bool)>(_loadedSymbols[interopFunctionName]));
+    }
+
+    // Load the symbol if it hasn't been loaded
+    void* symbol = GetInteropFunction(interopFunctionName);
+
+    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
+    _loadedSymbols[interopFunctionName] = symbol;
+
+    // Return the function pointer to the loaded symbol
+    return std::function<void(bool)>(reinterpret_cast<void(*)(bool)>(symbol));
+};
+
+std::function<void(char, bool, short)> InteropService::GetFunctionCharBoolShort(const std::string& interopFunctionName)
+{
+    // Return the symbol if it has been loaded
+    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
+    {
+        return std::function<void(char, bool, short)>(reinterpret_cast<void(*)(char, bool, short)>(_loadedSymbols[interopFunctionName]));
+    }
+
+    // Load the symbol if it hasn't been loaded
+    void* symbol = GetInteropFunction(interopFunctionName);
+
+    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
+    _loadedSymbols[interopFunctionName] = symbol;
+
+    return std::function<void(char, bool, short)>(reinterpret_cast<void(*)(char, bool, short)>(symbol));
+};
+
 void InteropService::LoadInteropLibrary()
 {
     if (_libraryHandle == nullptr)
@@ -39,39 +92,4 @@ void* InteropService::GetInteropFunction(const std::string& interopFunctionName)
 
     // Return the loaded symbol
     return symbol;
-};
-
-std::function<void()> InteropService::GetFunctionVoid(const std::string& interopFunctionName)
-{
-    // Return the symbol if it has been loaded
-    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
-    {
-        return std::function<void()>(reinterpret_cast<void(*)()>(_loadedSymbols[interopFunctionName]));
-    }
-
-    // Load the symbol if it hasn't been loaded
-    void* symbol = GetInteropFunction(interopFunctionName);
-
-    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
-    _loadedSymbols[interopFunctionName] = symbol;
-
-    // Return the function pointer to the loaded symbol
-    return std::function<void()>(reinterpret_cast<void(*)()>(symbol));
-};
-
-std::function<void(char, bool, short)> InteropService::GetFunctionCharBoolShort(const std::string& interopFunctionName)
-{
-    // Return the symbol if it has been loaded
-    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
-    {
-        return std::function<void(char, bool, short)>(reinterpret_cast<void(*)(char, bool, short)>(_loadedSymbols[interopFunctionName]));
-    }
-
-    // Load the symbol if it hasn't been loaded
-    void* symbol = GetInteropFunction(interopFunctionName);
-
-    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
-    _loadedSymbols[interopFunctionName] = symbol;
-
-    return std::function<void(char, bool, short)>(reinterpret_cast<void(*)(char, bool, short)>(symbol));
 };
