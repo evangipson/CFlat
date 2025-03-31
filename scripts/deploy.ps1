@@ -48,21 +48,12 @@ function Update-NativeFiles
     Copy-NativeFiles -SourceDirectory $applicationNativePath -TargetDirectory $exampleLibPath
 }
 
-# # Copies the assets directory off of the `$projectRootPath` into the CFlat.example directory
-# function Deploy-Libraries
-# {
-#     $assetsPath = Join-Path $projectRootPath "assets"
-#     $exampleProjectPath = Join-Path $projectRootPath "src\CFlat.Example"
-#     Copy-Item -Path $assetsPath -Destination $exampleProjectPath -Recurse -Force
-# }
-
 # Runs all necessary functions to deploy the CFlat application
 function Deploy-CFlat
 {
     Write-Host "CFlat deploy starting."
 
     Update-NativeFiles
-    # Deploy-NewestAssets
 
     Write-Host "CFlat deploy successful."
 }
