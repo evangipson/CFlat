@@ -7,7 +7,7 @@ class AudioEngineService
 {
     public:
         /// @brief Initializes the audio engine.
-        /// @param is3d - A flag indicating if the engine should support 3d sound, defaults to false.
+        /// @param is3d - A flag indicating if the engine should support 3d sound, defaults to @c false.
         static void InitAudioEngine(bool is3d = false);
 
         /// @brief Stops the audio engine.

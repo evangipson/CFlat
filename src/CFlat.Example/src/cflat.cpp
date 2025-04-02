@@ -3,14 +3,14 @@
 int main()
 {
     AudioEngineService::InitAudioEngine(true);
-    std::cout << "Started 3d audio engine." << std::endl;
+    LoggingService::LogInfo("Started 3d audio engine.");
 
     SoundService::PlayPianoNote('D', false, 3);
-    std::cout << "Playing D3 piano sound." << std::endl;
+    LoggingService::LogInfo("Playing D3 piano sound.");
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
-    std::cout << "Played D3 piano sound." << std::endl;
+    LoggingService::LogInfo("Played D3 piano sound.");
 
     AudioEngineService::StopAudioEngine();
-    std::cout << "Stopped audio engine." << std::endl;
+    LoggingService::LogInfo("Stopped audio engine.");
 };

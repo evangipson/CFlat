@@ -3,93 +3,46 @@
 HMODULE InteropService::_libraryHandle = nullptr;
 std::unordered_map<std::string, void*> InteropService::_loadedSymbols = {};
 
-std::function<void()> InteropService::GetFunctionVoid(const std::string& interopFunctionName)
-{
-    // Return the symbol if it has been loaded
-    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
-    {
-        return std::function<void()>(reinterpret_cast<void(*)()>(_loadedSymbols[interopFunctionName]));
-    }
-
-    // Load the symbol if it hasn't been loaded
-    void* symbol = GetInteropFunction(interopFunctionName);
-
-    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
-    _loadedSymbols[interopFunctionName] = symbol;
-
-    // Return the function pointer to the loaded symbol
-    return std::function<void()>(reinterpret_cast<void(*)()>(symbol));
-};
-
-std::function<void(bool)> InteropService::GetFunctionBool(const std::string& interopFunctionName)
-{
-    // Return the symbol if it has been loaded
-    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
-    {
-        return std::function<void(bool)>(reinterpret_cast<void(*)(bool)>(_loadedSymbols[interopFunctionName]));
-    }
-
-    // Load the symbol if it hasn't been loaded
-    void* symbol = GetInteropFunction(interopFunctionName);
-
-    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
-    _loadedSymbols[interopFunctionName] = symbol;
-
-    // Return the function pointer to the loaded symbol
-    return std::function<void(bool)>(reinterpret_cast<void(*)(bool)>(symbol));
-};
-
-std::function<void(char, bool, short)> InteropService::GetFunctionCharBoolShort(const std::string& interopFunctionName)
-{
-    // Return the symbol if it has been loaded
-    if (_loadedSymbols.find(interopFunctionName) != _loadedSymbols.end())
-    {
-        return std::function<void(char, bool, short)>(reinterpret_cast<void(*)(char, bool, short)>(_loadedSymbols[interopFunctionName]));
-    }
-
-    // Load the symbol if it hasn't been loaded
-    void* symbol = GetInteropFunction(interopFunctionName);
-
-    // Add the symbol to the loaded symbols once it's loaded to avoid re-loading
-    _loadedSymbols[interopFunctionName] = symbol;
-
-    return std::function<void(char, bool, short)>(reinterpret_cast<void(*)(char, bool, short)>(symbol));
-};
-
 void InteropService::LoadInteropLibrary()
 {
-    if (_libraryHandle == nullptr)
+    // If the library is already loaded, there is nothing to do here.
+    if (_libraryHandle != nullptr)
     {
-        #ifdef _WIN32
-            _libraryHandle = LoadLibraryA(PathToLibrary);
-        #else
-            _libraryHandle = dlopen(PathToLibrary, RTLD_LAZY);
-        #endif
+        LoggingService::LogDebug("Already had the interop library loaded, returning cached handle.");
+        return;
     }
 
+    // Try and load the library if it's not loaded, or throw an exception if it can't be loaded.
+    // (note: LoadLibraryA and dlopen won't throw an exception, so null checking after is sufficient).
+    #ifdef _WIN32
+    _libraryHandle = LoadLibraryA(PathToLibrary);
+    #else
+    _libraryHandle = dlopen(PathToLibrary, RTLD_LAZY);
+    #endif
+
+    // Ensure the library was loaded correctly by throwing if the output was NULL.
     if (_libraryHandle == nullptr)
     {
-        std::cerr << "Error loading library: " << PathToLibrary << std::endl;
-        return;
+        std::string errorMessage = LoggingService::AppendLastSystemError("Error loading native AoT library " + std::string(PathToLibrary));
+        throw std::runtime_error(errorMessage);
     }
 };
 
 void* InteropService::GetInteropFunction(const std::string& interopFunctionName)
 {
     // Load the library if it hasn't been loaded
-    if (_libraryHandle == nullptr)
-    {
-        LoadInteropLibrary();
-    }
+    LoadInteropLibrary();
 
-    // Load the symbol
+    // Try to return the loaded symbol, otherwise throw an exception
+    // (note: symLoad won't throw an exception, so null checking after is sufficient).
     void* symbol = symLoad(_libraryHandle, interopFunctionName.c_str());
+
+    // Ensure the symbol was loaded correctly by throwing if the output of symLoad was NULL.
     if (symbol == nullptr)
     {
-        std::cerr << "Error loading symbol: " << interopFunctionName << std::endl;
-        return nullptr;
+        std::string errorMessage = LoggingService::AppendLastSystemError("Error loading native AoT function " + interopFunctionName);
+        throw std::runtime_error(errorMessage);
     }
 
-    // Return the loaded symbol
     return symbol;
 };

@@ -30,6 +30,9 @@
     <ClCompile Include="src\interop\interop-constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\logging\logging-service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\CFlat.Application.lib" />
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\audio\sound-service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\logging\logging-service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -216,6 +216,7 @@
     <ClCompile Include="src\cflat.cpp" />
     <ClCompile Include="src\interop\interop-constants.cpp" />
     <ClCompile Include="src\interop\interop-service.cpp" />
+    <ClCompile Include="src\logging\logging-service.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="lib\CFlat.Application.dll">
@@ -293,6 +294,7 @@
     <ClInclude Include="src\cflat.h" />
     <ClInclude Include="src\interop\interop-constants.h" />
     <ClInclude Include="src\interop\interop-service.h" />
+    <ClInclude Include="src\logging\logging-service.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
