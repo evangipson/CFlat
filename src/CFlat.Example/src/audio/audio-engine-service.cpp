@@ -2,22 +2,10 @@
 
 void AudioEngineService::InitAudioEngine(bool is3d)
 {
-    auto initAudioEngineFunc = InteropService::GetAction<bool>(InteropFunctionNames::InitAudioEngine);
-    if (initAudioEngineFunc == nullptr)
-    {
-        std::cerr << "Error running AudioEngineService::InitAudioEngine: symbol was null" << std::endl;
-    }
-
-    initAudioEngineFunc(is3d);
+    InteropService::GetAction<bool>(InteropFunctionNames::InitAudioEngine)(is3d);
 }
 
 void AudioEngineService::StopAudioEngine()
 {
-    auto stopAudioEngineFunc = InteropService::GetAction(InteropFunctionNames::StopAudioEngine);
-    if (stopAudioEngineFunc == nullptr)
-    {
-        std::cerr << "Error running AudioEngineService::StopAudioEngine: symbol was null" << std::endl;
-    }
-
-    stopAudioEngineFunc();
+    InteropService::GetAction(InteropFunctionNames::StopAudioEngine)();
 }
