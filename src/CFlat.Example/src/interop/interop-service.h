@@ -1,11 +1,11 @@
 #pragma once
 
 #if defined(_WIN32)
-#define PathToLibrary ".\\lib\\CFLat.Application.dll"
+#define PathToLibrary ".\\lib\\CFlat.Native.dll"
 #elif defined(__APPLE__)
-#define PathToLibrary "./lib/CFLat.Application.dylib"
+#define PathToLibrary "./lib/CFlat.Native.dylib"
 #else
-#define PathToLibrary "./lib/CFLat.Application.so"
+#define PathToLibrary "./lib/CFlat.Native.so"
 #endif
 
 #ifdef _WIN32

@@ -2,7 +2,7 @@
 using CFlat.Application.Services;
 using CFlat.Core.Models;
 
-namespace CFlat.Application.Events;
+namespace CFlat.Native.Events;
 
 /// <summary>A <see langword="static"/> collection of <see cref="AudioEngine"/> methods that can be invoked from other systems or unmanaged code.</summary>
 public static class EngineEvents

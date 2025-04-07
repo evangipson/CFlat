@@ -1,17 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Title>CFlat</Title>
-    <Description>A native AoT .NET C# audio engine that leverages FMOD Core API.</Description>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <OutputType>Library</OutputType>
-    <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
   </PropertyGroup>
 
   <ItemGroup>

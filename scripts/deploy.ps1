@@ -37,15 +37,21 @@ function Update-NativeFiles
 {
     $coreProjectPath = Join-Path $projectRootPath "src\CFlat.Core"
     $applicationProjectPath = Join-Path $projectRootPath "src\CFlat.Application"
-    $coreNativePath = Join-Path $coreProjectPath "bin\Release\net9.0\win-x64\native"
-    $applicationNativePath = Join-Path $applicationProjectPath "bin\Release\net9.0\win-x64\native"
+    $nativeProjectPath = Join-Path $projectRootPath "src\CFlat.Native"
+
+    $publishedFilesPath = "bin\Release\net9.0\win-x64\native";
+
+    $corePublishedPath = Join-Path $coreProjectPath $publishedFilesPath
+    $applicationPublishedPath = Join-Path $applicationProjectPath $publishedFilesPath
+    $nativePublishedPath = Join-Path $nativeProjectPath $publishedFilesPath
+
     $exampleLibPath = Join-Path $projectRootPath "src\CFlat.Example\lib"
 
-    Run-DotNetPublish -ProjectPath $coreProjectPath
-    Run-DotNetPublish -ProjectPath $applicationProjectPath
+    Run-DotNetPublish -ProjectPath $nativeProjectPath
 
-    Copy-NativeFiles -SourceDirectory $coreNativePath -TargetDirectory $exampleLibPath
-    Copy-NativeFiles -SourceDirectory $applicationNativePath -TargetDirectory $exampleLibPath
+    Copy-NativeFiles -SourceDirectory $corePublishedPath -TargetDirectory $exampleLibPath
+    Copy-NativeFiles -SourceDirectory $applicationPublishedPath -TargetDirectory $exampleLibPath
+    Copy-NativeFiles -SourceDirectory $nativePublishedPath -TargetDirectory $exampleLibPath
 }
 
 # Runs all necessary functions to deploy the CFlat application

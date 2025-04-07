@@ -1,7 +1,7 @@
 # CFlat
 A [native AoT](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/native-aot) .NET C# audio engine using [FMOD Core](https://www.fmod.com/core), with an example C++ project invoking the exposed C# methods.
 
-All of the C# code is entirely native AoT, with a few methods exposed in [`CFlat.Application/Events`](src/CFlat.Application/Events/) intended to be called from unmanaged code.
+All of the C# code is entirely native AoT, with a few methods exposed in [`CFlat.Native/Events`](src/CFlat.Native/Events/) intended to be called from unmanaged code.
 
 ## Getting Started
 If publishing the native AoT C# to other runtimes or operating systems is desired, modify the `dotnet publish` command to target the desired runtime or operating system in the [`deploy.ps1`](scripts/deploy.ps1) script.
@@ -17,7 +17,9 @@ If publishing the native AoT C# to other runtimes or operating systems is desire
 ### C#
 The [`CFlat.Core`](src/CFlat.Core/) project mainly houses [models](src/CFlat.Core/Models/), [extensions](src/CFlat.Core/Extensions/), and [constants](src/CFlat.Core/Constants/) for the application.
 
-The [`CFlat.Application`](src/CFlat.Application/) project contains all of the [services](src/CFlat.Application/Services/), [factories](src/CFlat.Application/Factories/), and [exposed events](src/CFlat.Application/Events/) (methods that are intended to be invoked from unmanaged code).
+The [`CFlat.Application`](src/CFlat.Application/) project contains all of the [services](src/CFlat.Application/Services/) and [factories](src/CFlat.Application/Factories/).
+
+The [`CFlat.Native`](src/CFlat.Native/) project contains [events](src/CFlat.Application/Events/), which are "exposed" methods that are intended to be invoked from unmanaged code.
 
 ### C++
 The [`CFlat.Example`](src/CFlat.Example/) project is an example of invoking the [exposed events from `CFlat.Application`](src/CFlat.Application/Events/).
