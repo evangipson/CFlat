@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <AssemblyName>CFlat.Application.UnitTests</AssemblyName>
+    <RootNamespace>CFlat.Application.UnitTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,8 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CFlat.Application\CFlat.Application.csproj" />
-    <ProjectReference Include="..\..\src\CFlat.Core\CFlat.Core.csproj" />
+    <ProjectReference Include="..\..\src\Application\Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

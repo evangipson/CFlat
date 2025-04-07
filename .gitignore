@@ -482,3 +482,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Example C++ project's lib directory
+src/Examples/cpp/lib/

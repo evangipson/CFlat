@@ -10,11 +10,13 @@
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <InvariantGlobalization>true</InvariantGlobalization>
     <OutputType>Library</OutputType>
+    <AssemblyName>CFlat.Native</AssemblyName>
+    <RootNamespace>CFlat.Native</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CFlat.Application\CFlat.Application.csproj" />
-    <ProjectReference Include="..\CFlat.Core\CFlat.Core.csproj" />
+    <ProjectReference Include="..\..\..\Application\src\Application\Application.csproj" />
+    <ProjectReference Include="..\..\..\Application\src\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

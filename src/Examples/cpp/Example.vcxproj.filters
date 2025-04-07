@@ -39,12 +39,14 @@
     <Library Include="lib\CFlat.Core.lib" />
     <Library Include="lib\fmod_vc.lib" />
     <Library Include="lib\fmodL_vc.lib" />
+    <Library Include="lib\CFlat.Native.lib" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="lib\CFlat.Application.dll" />
     <CopyFileToFolders Include="lib\CFlat.Core.dll" />
     <CopyFileToFolders Include="lib\fmod.dll" />
     <CopyFileToFolders Include="lib\fmodL.dll" />
+    <CopyFileToFolders Include="lib\CFlat.Native.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cflat.h">

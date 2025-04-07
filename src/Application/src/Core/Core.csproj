@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
+    <AssemblyName>CFlat.Core</AssemblyName>
+    <RootNamespace>CFlat.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
