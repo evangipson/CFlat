@@ -1,12 +1,14 @@
 # CFlat
 A [native AoT](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/native-aot) .NET C# audio engine using [FMOD Core](https://www.fmod.com/core), with an example C++ project invoking the exposed C# methods.
 
-All of the C# code is entirely native AoT, with a few methods exposed in [`Shared Native project`](src/Shared/src/Native/Events/) intended to be called from unmanaged code.
+All of the C# code is entirely native AoT, with a few methods exposed in [Shared Native project](src/Shared/src/Native/Events/) intended to be called from unmanaged code.
 
 ## Getting Started
 1. Download the repo
-1. Run `dotnet publish src\Shared -c Release --use-current-runtime --property:PublishDir=src\Examples\cpp\lib` to publish the Shared native AoT .dll, .lib, and .pdb files to the C++ example project's `lib` directory
-1. Open the [`C++ example solution`](src/Examples/cpp) in Visual Studio
+1. Open up a terminal
+1. Navigate to the repository root
+1. Run [`build/build.ps1`](build/build.ps1) to deploy DLLs to both the [Shared Native project](src/Shared/src/Native/) and the [C++ example project](src/Examples/cpp/)
+1. Open the [C++ example solution](src/Examples/cpp) in Visual Studio
 1. Run the project to see C# code being invoked from C++
 
 ## Architecture

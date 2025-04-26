@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using CFlat.Application.Services;
-using CFlat.Core.Models;
 
 namespace CFlat.Native.Events;
 

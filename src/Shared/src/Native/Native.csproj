@@ -15,8 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Application\src\Application\Application.csproj" />
-    <ProjectReference Include="..\..\..\Application\src\Core\Core.csproj" />
+    <Reference Include="CFlat.Application">
+      <HintPath>bin\Release\net9.0\CFlat.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="CFlat.Core">
+      <HintPath>bin\Release\net9.0\CFlat.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

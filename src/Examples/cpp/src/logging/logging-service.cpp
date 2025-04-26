@@ -54,11 +54,10 @@ std::string LoggingService::GetCurrentTimestamp()
     localtime_s(&buf, &time_t_now);
 
     std::stringstream ss;
-    ss
-        << "["
-        << std::put_time(&buf, "%m/%d/%Y %H:%M:%S")
-        << "." << std::setfill('0') << std::setw(3) << nowMs.count()
-        << "]";
+    ss << "["
+       << std::put_time(&buf, "%m/%d/%Y %H:%M:%S")
+       << "." << std::setfill('0') << std::setw(3) << nowMs.count()
+       << "]";
 
     return ss.str();
 }
@@ -77,9 +76,8 @@ void LoggingService::Log(LogSeverity severity, const std::string& message, const
     LogSeverityInfo severityInfo = _severityInfo.at(severity);
 
     // Log the formatted message out.
-    std::cout
-        << severityInfo.color << severityInfo.name
-        << LoggingService::COLOR_GREY << callerFileName << "[" << callerLine << "] " << callerFunctionName << "()\n  "
-        << LoggingService::COLOR_GREY << GetCurrentTimestamp() << " "
-        << LoggingService::COLOR_RESET << message << std::endl;
+    std::cout << severityInfo.color << severityInfo.name
+              << LoggingService::COLOR_GREY << callerFileName << "[" << callerLine << "] " << callerFunctionName << "()\n  "
+              << LoggingService::COLOR_GREY << GetCurrentTimestamp() << " "
+              << LoggingService::COLOR_RESET << message << std::endl;
 }
